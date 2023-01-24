@@ -33,7 +33,7 @@ class SyncCommand extends Command
     {
         $language = strtoupper($this->argument('language'));
 
-        if (Deepl::api()->isSupportedLanguage($language)) {
+        if (!Deepl::api()->isSupportedLanguage($language)) {
             $this->error("Language `$language` is not supported");
 
             return self::FAILURE;
