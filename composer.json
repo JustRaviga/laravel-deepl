@@ -52,7 +52,7 @@
     "extra" : {
         "laravel" : {
             "providers" : [
-                "DeeplServiceProvider"
+                "JustRaviga\\Deepl\\DeeplServiceProvider"
             ],
             "aliases" : {
                 "Deepl" : "JustRaviga\\Deepl\\Facades\\Deepl"
