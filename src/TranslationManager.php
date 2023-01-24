@@ -102,7 +102,7 @@ class TranslationManager
             $translation = $this->getTranslatedString($value);
 
             if ($translation) {
-                $this->dataToSave[$file][$langKey][$this->translateTo] = $translation;
+                $this->dataToSave[$file][$langKey][strtolower($this->translateTo)] = $translation;
             }
         } else {
             foreach ($value as $nestedKey => $nestedValue) {
