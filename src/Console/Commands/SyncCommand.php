@@ -1,6 +1,6 @@
 <?php
 
-namespace JustRaviga\Deepl\Commands;
+namespace JustRaviga\Deepl\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
@@ -15,7 +15,7 @@ class SyncCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'deepl:translate {language}';
+    protected $signature = 'deepl:sync {language}';
 
     /**
      * The name and signature of the console command.

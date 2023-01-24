@@ -3,7 +3,7 @@
 namespace JustRaviga\Deepl;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use JustRaviga\Deepl\Commands\SyncCommand;
+use JustRaviga\Deepl\Console\Commands\SyncCommand;
 
 final class DeeplServiceProvider extends BaseServiceProvider
 {
