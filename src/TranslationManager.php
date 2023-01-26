@@ -2,9 +2,13 @@
 
 namespace JustRaviga\Deepl;
 
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
-use Themsaid\Langman\Manager;
 use JustRaviga\Deepl\Clients\DeeplClient;
+use Symfony\Component\Finder\SplFileInfo;
+use Themsaid\Langman\Manager;
 
 class TranslationManager
 {
@@ -17,21 +21,18 @@ class TranslationManager
 
     /**
      * Manager
-     *
      * @var Manager
      */
     private Manager $langFilesManager;
 
     /**
      * Language
-     *
      * @var string
      */
     private string $translateTo;
 
     /**
      * Data
-     *
      * @var array
      */
     private array $dataToSave = [];
@@ -57,7 +58,7 @@ class TranslationManager
     {
         $this->translateTo = $language;
 
-        $files = array_keys($this->langFilesManager->files());
+        $files = $this->getAllFileNames();
 
         foreach ($files as $file) {
             $this->translateFile($file);
@@ -68,9 +69,7 @@ class TranslationManager
 
     /**
      * Translate whole file
-     *
      * @param $file
-     *
      * @return void
      */
     private function translateFile($file): void
@@ -84,18 +83,16 @@ class TranslationManager
 
     /**
      * Translate
-     *
      * @param $file
      * @param  string  $key
      * @param  array|string  $value
-     *
      * @return void
      */
     private function translate($file, string $key, $value): void
     {
         $langKey = $key;
         if (is_string($value)) {
-            if ($this->hasKeyTranslated($langKey)) {
+            if ($this->hasKeyTranslated("$file.$langKey")) {
                 return;
             }
 
@@ -113,9 +110,7 @@ class TranslationManager
 
     /**
      * Get translated string from DeepL
-     *
      * @param $value
-     *
      * @return string|null
      */
     private function getTranslatedString($value): ?string
@@ -145,14 +140,12 @@ class TranslationManager
 
     /**
      * Return true if key is translated
-     *
      * @param $key
-     *
      * @return bool
      */
     private function hasKeyTranslated($key): bool
     {
-        return (bool) __($key, [], $this->translateTo) === $key;
+        return (bool) Lang::hasForLocale($key, $this->translateTo);
     }
 
     /**
@@ -165,5 +158,18 @@ class TranslationManager
         foreach ($this->dataToSave as $file => $data) {
             $this->langFilesManager->fillKeys($file, $data);
         }
+    }
+
+    /**
+     * Return all file names
+     *
+     * @return Collection
+     */
+    private function getAllFileNames(): Collection
+    {
+        return collect(File::allFiles(config('deepl.lang_directory') . '/' . app()->getLocale()))
+            ->map(function (SplFileInfo $file) {
+                return $file->getFilenameWithoutExtension();
+            });
     }
 }
