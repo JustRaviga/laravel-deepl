@@ -23,7 +23,7 @@
     },
     "require" : {
         "php" : "^7.4|^8.0",
-        "illuminate/support" : "^8.0|^9.0",
+        "illuminate/support" : "^8.0|^9.0|^10.0|^11.0|^12.0",
         "guzzlehttp/guzzle" : "7.*|^6.5",
         "chriskonnertz/deeply" : "^2.0",
         "justraviga/laravel-langman" : "^0.1"
